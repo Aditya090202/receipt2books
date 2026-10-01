@@ -1,0 +1,19 @@
+{
+  "name": "receipt2books-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Receipt2Books REST API (Node.js, Express, MongoDB)",
+  "//": [
+    "TODO (S1-T02): install dependencies with npm (this keeps versions current and writes package-lock.json)",
+    "  runtime: express mongoose zod jsonwebtoken bcrypt helmet cors express-rate-limit pino pino-http dotenv",
+    "  dev: typescript tsx @types/node @types/express @types/jsonwebtoken @types/bcrypt @types/cors jest ts-jest @types/jest supertest @types/supertest mongodb-memory-server eslint typescript-eslint prettier",
+    "  later: multer, @anthropic-ai/sdk (S1-T15)",
+    "TODO (S1-T02): add scripts: dev, build, start, lint, format, test, test:ci",
+    "TODO (S1-T02): decide CommonJS vs ESM and set \"type\" accordingly",
+    "Delete this \"//\" block once done."
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {}
+}

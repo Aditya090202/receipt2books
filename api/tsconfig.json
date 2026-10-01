@@ -1,0 +1,9 @@
+{
+  // TODO (S1-T02): strict TypeScript config for Node 24
+  //   - strict mode on
+  //   - target and lib matching Node 24
+  //   - module/moduleResolution to match the CommonJS vs ESM decision in package.json
+  //   - rootDir/outDir: compile src/ to dist/
+  //   - include src/ and tests/ so tests are type-checked too
+  "compilerOptions": {}
+}

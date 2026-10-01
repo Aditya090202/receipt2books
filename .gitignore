@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Env files (keep the examples)
+.env
+.env.*
+!.env.example
+
+# Test output
+coverage/
+reports/
+
+# Runtime uploads (receipt images, Sprint 1 week 2)
+api/uploads/*
+!api/uploads/.gitkeep
+
+# Expo / React Native (mobile/ is added in Sprint 1 week 2)
+mobile/.expo/
+mobile/dist/
+mobile/web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

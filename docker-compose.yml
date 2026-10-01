@@ -1,0 +1,9 @@
+# Local development services.
+# Week 1: MongoDB only. The API service is added in Sprint 2 (S2-T09, EN-01).
+#
+# TODO (S1-T04): add a `mongo` service
+#   - official mongo image, pinned to a major version
+#   - credentials from the root .env (see .env.example)
+#   - publish MONGO_PORT so the API running on your machine can connect
+#   - named volume for /data/db so data survives restarts
+#   - healthcheck (mongosh ping) so the API service can wait on it later
