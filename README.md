@@ -25,5 +25,23 @@ AI expense tracker: snap a receipt on your phone, an LLM extracts the vendor, da
 
 ## Getting started
 
+Requires Node.js 22+ (see `.nvmrc`).
+
+**API** (starter: `/`, `/health`, `/api`):
+
+```bash
+cd api
+npm install
+npm run dev        # http://localhost:4000
+```
+
+**Mobile app** (currently the Expo starter app):
+
+```bash
+cd mobile
+npm install
+npx expo start     # scan the QR code with Expo Go
+```
+
 <!-- TODO (S1-T04): document `cp .env.example .env` and `docker compose up -d` for MongoDB -->
-<!-- TODO (S1-T03): document running the API (see api/.env.example) -->
+<!-- TODO (S1-T03): document api/.env setup (see api/.env.example) -->
