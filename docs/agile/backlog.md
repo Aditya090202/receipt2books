@@ -22,7 +22,7 @@ As Sam, I want to create an account with my email and password so that my receip
 - AC1: Given a new email and a password of 8+ characters, when I register, then an account is created and I am logged in.
 - AC2: Given an email that already exists, when I register, then I see "email already in use" and no account is created.
 - AC3: Passwords are stored hashed, never in plain text.
-- AC4: A default set of categories is created for my account.
+- AC4: A default set of categories, each with a short description of what belongs in it, is created for my account (the descriptions guide the AI's category choice).
 
 ### US-02 Log in and stay logged in (3 pts, Must)
 As Sam, I want to log in and stay logged in on my phone so that I don't type my password every time.
@@ -63,17 +63,19 @@ As Sam, I want to delete a receipt so that mistakes and duplicates don't skew my
 As Sam, I want to photograph a receipt and have vendor, date, total and category filled in automatically so that I don't type anything.
 - AC1: I can take a photo with the camera or pick one from my gallery.
 - AC2: The image is compressed before upload; files over the size limit or of the wrong type are rejected with a clear message.
-- AC3: Within ~10 seconds I see the parsed receipt with vendor, date, total, currency and a suggested category.
-- AC4: The suggested category is one of my categories, or "Uncategorized".
-- AC5: If the AI response is invalid or the AI call fails, I see an error and can retry or enter the receipt manually.
-- AC6: Automated tests cover success, malformed AI output and AI failure, with the AI mocked.
+- AC3: Within ~10 seconds I see the parsed receipt with vendor, date, total and currency read from the photo by Claude; anything Claude can't read is left empty, not guessed.
+- AC4: The category is chosen by Jev (TypeSafe) from my own categories, with its confidence score saved on the receipt; if nothing fits, it is "Uncategorized".
+- AC5: The parsed receipt is saved straight away with status "parsed" (needs review), so nothing is lost if I close the app before reviewing it.
+- AC6: If Claude's response is invalid or the call fails, I see an error and can retry or enter the receipt manually. If Jev fails, the receipt is still saved as "Uncategorized" with the category flagged for review.
+- AC7: Automated tests cover success, malformed Claude output, Claude failure and Jev failure, with both services mocked.
 
 ### US-08 Correct the AI's parse (5 pts, Must)
 As Sam, I want to review and fix what the AI extracted so that my expense records are accurate.
 - AC1: Every parsed field is editable on the receipt screen, next to a thumbnail of the photo.
-- AC2: Fields the AI was not confident about are highlighted.
-- AC3: Tapping Confirm saves my edits and marks the receipt as confirmed.
-- AC4: The list shows which receipts are still unconfirmed.
+- AC2: Fields that need checking are highlighted with a reason: vendor missing; total not a positive number or not matching subtotal + tax; date invalid, in the future or over a year old; category confidence below 0.5.
+- AC3: A category with confidence from 0.5 to 0.9 is shown as "suggested"; 0.9 or above is shown normally (starting thresholds, kept in config and tuned after testing sample receipts).
+- AC4: Tapping Confirm saves my edits, marks the receipt as confirmed and clears its review flags.
+- AC5: The list shows which receipts still need review.
 
 ## Epic D: Insights
 
@@ -81,13 +83,14 @@ As Sam, I want to review and fix what the AI extracted so that my expense record
 As Sam, I want a chart of this month's spending by category so that I know where my money goes.
 - AC1: I can switch between months.
 - AC2: The chart shows each category's total and share, plus the month's overall total.
-- AC3: Totals match the sum of the receipts in that month (covered by an API test).
-- AC4: Adding, editing or deleting a receipt updates the chart.
+- AC3: Only confirmed receipts are counted; the screen shows how many receipts that month still need review.
+- AC4: Totals match the sum of the confirmed receipts in that month (covered by an API test).
+- AC5: Adding, confirming, editing or deleting a receipt updates the chart.
 
 ### US-15 See this month's total at a glance (1 pt, Should)
 As Sam, I want to see how much I've spent this month at the top of my expense list so that I don't have to open the Reports screen.
-- AC1: The expense list shows a header with this month's total spent and number of receipts.
-- AC2: The header updates after adding, editing or deleting a receipt.
+- AC1: The expense list shows a header with this month's total spent (confirmed receipts) and number of receipts, plus how many need review.
+- AC2: The header updates after adding, confirming, editing or deleting a receipt.
 - AC3: Uses the existing monthly report endpoint (no new API).
 
 ## Epic E: Engineering enablers

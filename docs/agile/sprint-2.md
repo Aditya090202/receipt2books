@@ -4,7 +4,7 @@
 |---|---|
 | Dates | Thu 2026-10-15 to Wed 2026-10-28 (2 weeks, 14 sessions) |
 | Team | Aditya (Product Owner, Scrum Master and Developer) |
-| Capacity | 1 to 2 hours/day, about 22 hours total |
+| Capacity | 1 to 2 hours/day, about 23 hours total |
 | Planned | 7 stories, 22 points (draft, finalised in Sprint 2 planning) |
 
 > This is a draft. In real Scrum, the next sprint is planned after the previous sprint's review and retro, using what you learned. Revisit it in Sprint 1, session 14: carry over unfinished stories and adjust the plan to your actual velocity.
@@ -38,9 +38,9 @@ Same as [Sprint 1](sprint-1.md#definition-of-done-applies-to-every-story), plus:
 |---|---|---|---|---|
 | 1 Thu 10-15 | S2-T01 | Sprint planning: carry-overs, confirm goal and capacity | – | 0.5h |
 | | S2-T02 | Receipt detail/edit screen with photo thumbnail, editable fields | US-08 | 1h |
-| 2 Fri 10-16 | S2-T03 | Low-confidence highlighting; Confirm sets `status: confirmed`; unconfirmed badge in list | US-08 | 1.5h |
+| 2 Fri 10-16 | S2-T03 | Review-flag checks on parse (vendor, total, date); highlight flagged fields and "suggested" category; Confirm sets `status: confirmed` and clears flags; needs-review badge in list | US-08 | 2h |
 | 3 Sat 10-17 | S2-T04 | Delete with confirmation; query invalidation so the list updates after edits | US-06, US-08 | 1.5h |
-| 4 Sun 10-18 | S2-T05 | `GET /reports/monthly` aggregation + tests (totals match receipts) | US-09 | 2h |
+| 4 Sun 10-18 | S2-T05 | `GET /reports/monthly` aggregation over confirmed receipts + needs-review count; tests (totals match confirmed receipts) | US-09 | 2h |
 | 5 Mon 10-19 | S2-T06 | Reports screen: chart by category with totals | US-09 | 1.5h |
 | 6 Tue 10-20 | S2-T07 | Month switcher; chart updates after add/edit/delete | US-09 | 1.5h |
 | | S2-T08 | Monthly total header on the expense list (reuses report endpoint) | US-15 | 0.5h |
@@ -82,5 +82,5 @@ Same as [Sprint 1](sprint-1.md#definition-of-done-applies-to-every-story), plus:
 
 ## Scope rules
 
-- If behind at the Week 3 checkpoint, cut in this order: monthly total header (US-15), low-confidence highlighting (US-08 AC2), month switcher (show current month only), chart polish.
-- Never cut: US-08 confirm flow, EN-01, EN-03, EN-04. Deployment and the README are what recruiters actually see.
+- If behind at the Week 3 checkpoint, cut in this order: monthly total header (US-15), review-flag checks and highlighting (US-08 AC2, AC3), month switcher (show current month only), chart polish.
+- Never cut: US-08 confirm flow (AC4), EN-01, EN-03, EN-04. Deployment and the README are what recruiters actually see.

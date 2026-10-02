@@ -69,9 +69,11 @@ api/
 │   │   ├── receipt.service.ts
 │   │   ├── category.service.ts   # default category seeding, list/create
 │   │   ├── report.service.ts     # Mongo aggregation
-│   │   └── llm/
-│   │       ├── receiptParser.ts  # image -> structured fields (Claude API)
-│   │       └── schema.ts         # zod schema for LLM output
+│   │   ├── reviewFlags.ts        # code checks -> per-field review flags (S2-T03)
+│   │   └── ai/
+│   │       ├── receiptExtractor.ts   # image -> structured fields (Claude API, S1-T15)
+│   │       ├── extraction.schema.ts  # zod schema for Claude's output
+│   │       └── categoryClassifier.ts # fields + user's categories -> category + confidence (Jev, S1-T16)
 │   ├── middleware/
 │   │   ├── auth.ts               # verify JWT, attach req.user
 │   │   ├── validate.ts           # zod validation for body/query/params
@@ -110,7 +112,7 @@ api/
 ```
 
 **API dependencies**
-- Runtime: `express`, `mongoose`, `zod`, `jsonwebtoken`, `bcrypt`, `multer`, `helmet`, `cors`, `express-rate-limit`, `pino` + `pino-http`, `dotenv`, `@anthropic-ai/sdk`
+- Runtime: `express`, `mongoose`, `zod`, `jsonwebtoken`, `bcrypt`, `multer`, `helmet`, `cors`, `express-rate-limit`, `pino` + `pino-http`, `dotenv`, `@anthropic-ai/sdk`, `@typesafe-ai/sdk`
 - Dev: `typescript`, `tsx` (dev runner), `@types/*`, `jest`, `ts-jest`, `supertest`, `mongodb-memory-server`, `eslint`, `typescript-eslint`, `prettier`
 
 **Scripts:** `dev` (tsx watch), `build` (tsc), `start` (node dist), `lint`, `format`, `test`, `test:ci` (with coverage + JUnit report for Jenkins).
@@ -121,7 +123,8 @@ api/
 - `helmet`, CORS allow-list, rate limiting on auth routes, request body size limits
 - Passwords hashed with bcrypt; JWT secret from env; generic login error messages
 - Every query scoped by `req.user.id` (ownership isolation) with a test
-- zod at every boundary: requests and LLM output
+- zod at every boundary: requests and AI output
+- AI split by job: Claude extracts fields, Jev picks the category with a confidence score, plain code computes review flags; confidence thresholds live in config
 - Single error shape and `asyncHandler` so controllers never need try/catch
 - Mongoose indexes: unique `User.email`, compound `Receipt {userId, date}`
 - Upload limits (size, `image/jpeg|png|webp` only), generated filenames
@@ -129,44 +132,47 @@ api/
 
 ## 3. Mobile: `mobile/`
 
-Expo (managed workflow, TypeScript template) with Expo Router (file-based routing, current Expo default). Feature code lives in `src/`, route files stay thin.
+Expo SDK 57 (managed workflow, default template) with Expo Router. Following the current Expo template, routes live in `src/app/` alongside feature code in `src/`, and filenames are kebab-case. Route files stay thin.
 
 ```
 mobile/
-├── app/                          # Expo Router (routes only)
-│   ├── _layout.tsx               # root providers, auth gate
-│   ├── (auth)/
-│   │   ├── login.tsx
-│   │   └── register.tsx
-│   └── (tabs)/
-│       ├── _layout.tsx
-│       ├── index.tsx             # receipt list
-│       ├── add.tsx               # camera / gallery / manual add
-│       └── reports.tsx           # monthly chart
-│   └── receipt/
-│       └── [id].tsx              # view / edit / confirm / delete
 ├── src/
+│   ├── app/                      # Expo Router routes (target layout below; Expo starter screens until S1-T12)
+│   │   ├── _layout.tsx           # root providers, auth gate
+│   │   ├── (auth)/
+│   │   │   ├── _layout.tsx
+│   │   │   ├── login.tsx
+│   │   │   └── register.tsx
+│   │   ├── (tabs)/
+│   │   │   ├── _layout.tsx
+│   │   │   ├── index.tsx         # expense list
+│   │   │   ├── add.tsx           # camera / gallery / manual add
+│   │   │   └── reports.tsx       # monthly chart
+│   │   └── receipt/
+│   │       └── [id].tsx          # view / edit / confirm / delete
 │   ├── api/
 │   │   ├── client.ts             # fetch wrapper: base URL, token, error mapping
 │   │   ├── auth.ts
 │   │   ├── receipts.ts
 │   │   └── reports.ts
 │   ├── auth/
-│   │   ├── AuthContext.tsx
-│   │   └── tokenStorage.ts       # expo-secure-store
-│   ├── components/               # ReceiptCard, CategoryChip, ChartCard, Button, TextField
-│   ├── hooks/                    # useReceipts, useMonthlyReport (TanStack Query)
-│   ├── theme/                    # colors, spacing, typography
+│   │   ├── auth-context.tsx
+│   │   └── token-storage.ts      # expo-secure-store
+│   ├── components/               # receipt-card, monthly-total-header, button, text-field (+ Expo themed-text/view)
+│   ├── constants/theme.ts        # colors, spacing, fonts (from the Expo template)
+│   ├── hooks/                    # use-receipts, use-monthly-report (TanStack Query) + Expo theme hooks
 │   ├── types/                    # API types (mirror of API schemas)
-│   └── utils/                    # formatCurrency, formatDate, image compression
-├── assets/                       # icon, splash
+│   └── utils/                    # format (currency, dates), image compression
+├── planned-routes/               # placeholder route files, moved into src/app/ in S1-T12
+├── assets/                       # icons, splash (from the Expo template)
 ├── __tests__/                    # a few component/util tests (Jest + RN Testing Library)
+├── README.md                     # how to run + S1-T12 steps
+├── AGENTS.md  .claude/           # AI-tool guidance shipped with the Expo template
 ├── app.json                      # Expo config
 ├── .env.example                  # EXPO_PUBLIC_API_URL
-├── eslint.config.js
+├── eslint.config.js              # created by `npx expo lint` (S1-T12)
 ├── .prettierrc
-├── babel.config.js
-├── tsconfig.json
+├── tsconfig.json                 # extends expo/tsconfig.base, `@/*` -> src/*
 └── package.json
 ```
 
@@ -195,7 +201,7 @@ Mobile is not built in Jenkins (Expo builds need EAS); optionally lint + test th
 
 - `.gitignore`: `node_modules`, `dist`, `.env*` (but keep `.env.example`), `uploads/*` (keep `.gitkeep`), `coverage`, `.expo`, OS/editor files
 - `.editorconfig`, shared Prettier settings (single quotes, trailing commas, 100 cols)
-- `.env.example` files: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `ANTHROPIC_API_KEY`, `CORS_ORIGIN`, `PORT`; mobile: `EXPO_PUBLIC_API_URL`
+- `.env.example` files: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `ANTHROPIC_API_KEY`, `TYPESAFE_API_KEY`, `CORS_ORIGIN`, `PORT`; mobile: `EXPO_PUBLIC_API_URL`
 - Conventional commits (`feat:`, `fix:`, `chore:`), feature branches, PR template with a Definition of Done checklist
 - Pin Node version (`.nvmrc`, `engines`), commit lockfiles
 - Never commit real receipts or API keys; demo uses synthetic receipts

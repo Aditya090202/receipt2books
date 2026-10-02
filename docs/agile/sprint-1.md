@@ -4,7 +4,7 @@
 |---|---|
 | Dates | Thu 2026-10-01 to Wed 2026-10-14 (2 weeks, 14 sessions) |
 | Team | Aditya (Product Owner, Scrum Master and Developer) |
-| Capacity | 1 to 2 hours/day, about 21 hours total |
+| Capacity | 1 to 2 hours/day, about 23 hours total |
 | Planned | 7 stories, 24 points |
 
 ## Sprint goal
@@ -66,10 +66,10 @@ One session = one day's 1 to 2 hours. Task IDs (e.g. `S1-T05`) go in branch name
 | 9 Fri 10-09 | S1-T12 | `mobile/` scaffold: Expo Router, TanStack Query; API client; SecureStore + AuthContext | US-02 | 1.5h |
 | 10 Sat 10-10 | S1-T13 | Login and register screens; run on phone via Expo Go (LAN IP) | US-01, US-02 | 2h |
 | 11 Sun 10-11 | S1-T14 | Receipt list (pull to refresh, empty state) and manual add form | US-04, US-05 | 2h |
-| 12 Mon 10-12 | S1-T15 | `POST /receipts/parse`: multer limits, disk storage, Claude parser with JSON schema + zod + one retry | US-07 | 1.5h |
-| 13 Tue 10-13 | S1-T16 | Category mapping; parse tests with LLM mocked (success, malformed, failure) | US-07 | 1h |
+| 12 Mon 10-12 | S1-T15 | `POST /receipts/parse`: multer limits, disk storage, Claude extraction with JSON schema + zod + one retry; save as `parsed` | US-07 | 1.5h |
+| 13 Tue 10-13 | S1-T16 | Jev category choice via the TypeSafe SDK; flag the category when confidence < 0.5 or Jev fails (fallback "Uncategorized"); parse tests with Claude and Jev mocked | US-07 | 1.5h |
 | | S1-T17 | App: camera/gallery picker, compression, upload with loading and error states | US-07 | 1h |
-| 14 Wed 10-14 | S1-T18 | Try 8 to 10 sample receipts, note accuracy; fixes | US-07 | 0.5h |
+| 14 Wed 10-14 | S1-T18 | Try 8 to 10 sample receipts: note extraction accuracy and compare Jev's confidence with the right category to sanity-check the 0.5 / 0.9 thresholds | US-07 | 0.5h |
 | | S1-T19 | Sprint review + retro in [retro.md](retro.md); plan Sprint 2 | – | 1h |
 
 **End of sprint:** a demoable headline feature. You can snap a receipt and see it in the list.

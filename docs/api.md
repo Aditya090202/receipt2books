@@ -24,5 +24,5 @@ Error format (all endpoints):
 | DELETE | /api/receipts/:id | Yes | S1-T09 | TODO |
 | GET | /api/categories | Yes | S1-T09 | TODO |
 | POST | /api/categories | Yes | S1-T09 | TODO |
-| POST | /api/receipts/parse | Yes | S1-T15 | Sprint 1 week 2 |
+| POST | /api/receipts/parse | Yes | S1-T15, S1-T16 | Sprint 1 week 2 |
 | GET | /api/reports/monthly | Yes | S2-T05 | Sprint 2 |

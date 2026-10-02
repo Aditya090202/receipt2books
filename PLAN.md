@@ -1,7 +1,7 @@
 # Receipt2Books: 4-Week Plan
 
 Dates: Thu 2026-10-01 to Wed 2026-10-28.
-Pace: 1 to 2 hours a day, about 42 hours total, run as two 2-week sprints.
+Pace: 1 to 2 hours a day, about 46 hours total, run as two 2-week sprints.
 See [PROJECT_DEFINITION.md](PROJECT_DEFINITION.md) for scope, stack and API, and [docs/agile/](docs/agile/) for the backlog and sprint details.
 
 ## Roadmap
@@ -36,8 +36,8 @@ Apply to the Intuit role now rather than waiting for the project. List the repo 
 ## Resume and application output (end of Sprint 2)
 
 Draft bullets (fill in real numbers):
-- Built Receipt2Books, a cross-platform React Native (Expo) expense tracker with a Node/Express REST API and MongoDB; users photograph receipts and a vision LLM extracts vendor, date, total and category into an expense list with monthly spending charts.
-- Designed structured-output LLM parsing with schema validation and a human-in-the-loop correction flow; N% of test receipts parsed correctly without edits.
+- Built Receipt2Books, a cross-platform React Native (Expo) expense tracker with a Node/Express REST API and MongoDB; users photograph receipts, Claude extracts the vendor, date and total, and Jev (TypeSafe AI) picks the category with a confidence score, feeding an expense list with monthly spending charts.
+- Designed an AI pipeline that separates extraction (structured-output LLM with schema validation) from classification (calibrated confidence), with rule-based review flags and a human-in-the-loop confirm step; N% of test receipts confirmed without edits.
 - Containerised the API with Docker and built a Jenkins CI pipeline (lint, test, image build); deployed to Render with MongoDB Atlas.
 - Ran the project in two 2-week Scrum sprints with user stories, story points, a burndown, sprint reviews and retrospectives.
 
