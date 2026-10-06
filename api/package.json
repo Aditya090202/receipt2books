@@ -4,16 +4,31 @@
   "private": true,
   "description": "Receipt2Books REST API (Node.js, Express, MongoDB)",
   "//": [
-    "TODO (S1-T02): install dependencies with npm (this keeps versions current and writes package-lock.json)",
-    "  runtime: express mongoose zod jsonwebtoken bcrypt helmet cors express-rate-limit pino pino-http dotenv",
-    "  dev: typescript tsx @types/node @types/express @types/jsonwebtoken @types/bcrypt @types/cors jest ts-jest @types/jest supertest @types/supertest mongodb-memory-server eslint typescript-eslint prettier",
-    "  later: multer, @anthropic-ai/sdk (S1-T15)",
-    "TODO (S1-T02): add scripts: dev, build, start, lint, format, test, test:ci",
-    "TODO (S1-T02): decide CommonJS vs ESM and set \"type\" accordingly",
+    "Starter scaffold: only Express + TypeScript are installed so far.",
+    "TODO (S1-T02): install the remaining dependencies with npm",
+    "  runtime: mongoose zod jsonwebtoken bcrypt helmet cors express-rate-limit pino pino-http dotenv",
+    "  dev: @types/jsonwebtoken @types/bcrypt @types/cors jest ts-jest @types/jest supertest @types/supertest mongodb-memory-server eslint typescript-eslint prettier",
+    "  later: multer, @anthropic-ai/sdk (S1-T15), @typesafe-ai/sdk (S1-T16)",
+    "  keep typescript on 6.0.x: typescript-eslint and ts-jest don't support TypeScript 7 yet",
+    "TODO (S1-T02): add scripts: lint, format, test, test:ci",
     "Delete this \"//\" block once done."
   ],
   "engines": {
-    "node": ">=24"
+    "node": ">=22"
   },
-  "scripts": {}
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.20.4",
+    "tsx": "^4.23.15",
+    "typescript": "~6.0.3"
+  }
 }

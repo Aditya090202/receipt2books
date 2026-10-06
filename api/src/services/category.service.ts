@@ -2,8 +2,12 @@
  * Category service.
  * Task: S1-T06 (default seeding), S1-T09 (list/create) | Stories: US-01, US-05
  *
- * Default categories seeded on registration (adjust as you like):
- *   Meals, Travel, Office Supplies, Software, Utilities, Transport, Other, Uncategorized
+ * Default categories seeded on registration, each with a short description (adjust as you like):
+ *   Groceries, Dining Out, Transport, Shopping, Bills & Utilities, Entertainment, Health, Travel,
+ *   Subscriptions, Uncategorized
+ *   e.g. Dining Out: "Restaurants, cafes, bars, takeaway and food delivery"
+ *   The descriptions are the criteria Jev uses to choose a category (S1-T16).
+ *   "Uncategorized" is the no-match option: "None of the other categories fit".
  *
  * Functions:
  *   - seedDefaults(userId)

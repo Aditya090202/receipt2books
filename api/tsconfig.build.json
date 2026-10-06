@@ -1,4 +1,11 @@
 {
-  // TODO (S1-T02): extend ./tsconfig.json and exclude tests/ so `npm run build` only emits src/
-  "extends": "./tsconfig.json"
+  // Production build: compiles src/ only (no tests) into dist/.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "noEmit": false,
+    "sourceMap": true
+  },
+  "include": ["src"]
 }

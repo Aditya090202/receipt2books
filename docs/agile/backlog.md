@@ -11,7 +11,7 @@ The product backlog is the ordered list of everything the product might need. Th
 
 ## Personas
 
-- **Sam, freelancer:** collects paper receipts and wants them categorised for tax time without typing.
+- **Sam, everyday spender:** pays for groceries, meals out, transport and shopping, ends up with a pile of paper receipts, and wants to know where their money goes each month without typing anything in.
 
 ---
 
@@ -22,7 +22,7 @@ As Sam, I want to create an account with my email and password so that my receip
 - AC1: Given a new email and a password of 8+ characters, when I register, then an account is created and I am logged in.
 - AC2: Given an email that already exists, when I register, then I see "email already in use" and no account is created.
 - AC3: Passwords are stored hashed, never in plain text.
-- AC4: A default set of categories is created for my account.
+- AC4: A default set of categories, each with a short description of what belongs in it, is created for my account (the descriptions guide the AI's category choice).
 
 ### US-02 Log in and stay logged in (3 pts, Must)
 As Sam, I want to log in and stay logged in on my phone so that I don't type my password every time.
@@ -63,17 +63,20 @@ As Sam, I want to delete a receipt so that mistakes and duplicates don't skew my
 As Sam, I want to photograph a receipt and have vendor, date, total and category filled in automatically so that I don't type anything.
 - AC1: I can take a photo with the camera or pick one from my gallery.
 - AC2: The image is compressed before upload; files over the size limit or of the wrong type are rejected with a clear message.
-- AC3: Within ~10 seconds I see the parsed receipt with vendor, date, total, currency and a suggested category.
-- AC4: The suggested category is one of my categories, or "Uncategorized".
-- AC5: If the AI response is invalid or the AI call fails, I see an error and can retry or enter the receipt manually.
-- AC6: Automated tests cover success, malformed AI output and AI failure, with the AI mocked.
+- AC3: Within ~10 seconds I see the parsed receipt with vendor, date, total and currency read from the photo by Claude; anything Claude can't read is left empty, not guessed.
+- AC4: The category is chosen from my own categories by Jev (TypeSafe); its confidence score and who chose it (Jev, Claude or me) are saved on the receipt; if nothing fits, it is "Uncategorized".
+- AC5: The parsed receipt is saved straight away with status "parsed" (needs review), so nothing is lost if I close the app before reviewing it.
+- AC6: If Claude's response is invalid or the call fails, I see an error and can retry or enter the receipt manually. If Jev fails or takes longer than about 3 seconds, the category Claude suggested during extraction is used instead and shown as "suggested"; if neither works, the receipt is saved as "Uncategorized" with the category flagged for review.
+- AC7: The classifier can be changed with one config setting (`CATEGORY_CLASSIFIER`: `jev`, `claude` or `none`) and a restart, with no code change.
+- AC8: Automated tests cover success, malformed Claude output, Claude failure, Jev failure falling back to Claude, and the switch set to `claude`, with both services mocked.
 
 ### US-08 Correct the AI's parse (5 pts, Must)
 As Sam, I want to review and fix what the AI extracted so that my expense records are accurate.
 - AC1: Every parsed field is editable on the receipt screen, next to a thumbnail of the photo.
-- AC2: Fields the AI was not confident about are highlighted.
-- AC3: Tapping Confirm saves my edits and marks the receipt as confirmed.
-- AC4: The list shows which receipts are still unconfirmed.
+- AC2: Fields that need checking are highlighted with a reason: vendor missing; total not a positive number or not matching subtotal + tax; date invalid, in the future or over a year old; category confidence below 0.5.
+- AC3: A category with confidence from 0.5 to 0.9, or one chosen by the backup (Claude), is shown as "suggested"; 0.9 or above is shown normally (starting thresholds, kept in config and tuned after testing sample receipts).
+- AC4: Tapping Confirm saves my edits, marks the receipt as confirmed and clears its review flags.
+- AC5: The list shows which receipts still need review.
 
 ## Epic D: Insights
 
@@ -81,13 +84,14 @@ As Sam, I want to review and fix what the AI extracted so that my expense record
 As Sam, I want a chart of this month's spending by category so that I know where my money goes.
 - AC1: I can switch between months.
 - AC2: The chart shows each category's total and share, plus the month's overall total.
-- AC3: Totals match the sum of the receipts in that month (covered by an API test).
-- AC4: Adding, editing or deleting a receipt updates the chart.
+- AC3: Only confirmed receipts are counted; the screen shows how many receipts that month still need review.
+- AC4: Totals match the sum of the confirmed receipts in that month (covered by an API test).
+- AC5: Adding, confirming, editing or deleting a receipt updates the chart.
 
 ### US-15 See this month's total at a glance (1 pt, Should)
 As Sam, I want to see how much I've spent this month at the top of my expense list so that I don't have to open the Reports screen.
-- AC1: The expense list shows a header with this month's total spent and number of receipts.
-- AC2: The header updates after adding, editing or deleting a receipt.
+- AC1: The expense list shows a header with this month's total spent (confirmed receipts) and number of receipts, plus how many need review.
+- AC2: The header updates after adding, confirming, editing or deleting a receipt.
 - AC3: Uses the existing monthly report endpoint (no new API).
 
 ## Epic E: Engineering enablers
@@ -108,12 +112,12 @@ As a developer, I want every push to be linted and tested automatically so that 
 - AC3: Test results are published in Jenkins (JUnit report).
 
 ### EN-03 Live deployment (3 pts, Must)
-As a recruiter, I want to reach a live API so that I can see the project actually runs.
+As Sam, I want the app to work wherever I am, not just on my home Wi-Fi, so that I can snap receipts right after I pay.
 - AC1: The API is deployed on Render with MongoDB Atlas; `/health` returns 200.
 - AC2: The mobile app works end to end against the deployed API.
 
-### EN-04 Portfolio-ready README and demo (2 pts, Must)
-As a hiring manager, I want a clear README and demo video so that I can understand the project in two minutes.
+### EN-04 Clear README and demo video (2 pts, Must)
+As a developer discovering the project, I want a clear README and demo video so that I can understand what it does and run it myself within a few minutes.
 - AC1: README has a pitch, screenshots, architecture diagram, setup steps, API summary and design decisions.
 - AC2: A 60 to 90 second demo video is linked.
 
@@ -123,18 +127,29 @@ As a hiring manager, I want a clear README and demo video so that I can understa
 
 | Sprint | Stories | Points |
 |---|---|---|
-| [Sprint 1](sprint-1.md) (Oct 1 – Oct 14) | US-01, US-02, US-03, US-04, US-05, US-07, EN-02 | 24 |
-| [Sprint 2](sprint-2.md) (Oct 15 – Oct 28) | US-06, US-08, US-09, US-15, EN-01, EN-03, EN-04 | 22 |
+| [Sprint 1](sprint-1.md) (Oct 7 – Oct 20) | US-01, US-02, US-03, US-04, US-05, US-07, EN-02 | 24 |
+| [Sprint 2](sprint-2.md) (Oct 21 – Nov 3) | US-06, US-08, US-09, US-15, EN-01, EN-03, EN-04 | 22 |
 
 ## Future work (not planned in Sprints 1–2)
 
 | ID | Story | Pts | Priority |
 |---|---|---|---|
 | US-16 | See a 6-month spending trend chart (new aggregation endpoint + bar chart) | 3 | Could |
-| US-14 | Export confirmed receipts to QuickBooks Online (OAuth 2.0, map categories to expense accounts) | 8 | Should |
 | US-10 | Create and edit my own categories in the app | 3 | Could |
-| US-11 | Export a month to CSV for my accountant | 3 | Could |
-| US-12 | Extract line items from receipts | 8 | Could |
+| US-11 | Export a month of expenses to CSV to use in a spreadsheet | 3 | Could |
+| US-12 | See the price of each item on a receipt (refined below) | 5 | Should |
 | US-13 | Convert foreign currencies to my home currency | 5 | Could |
 | EN-05 | Refresh tokens | 3 | Could |
 | EN-06 | Store images in cloud object storage | 3 | Could |
+
+### Refined future stories
+
+Future stories get acceptance criteria once they're likely to be pulled into a sprint (backlog refinement).
+
+### US-12 See the price of each item on a receipt (5 pts, Should)
+As Sam, I want each item on a receipt saved with its price so that I can see exactly what I paid for, not just the total.
+- AC1: When a receipt is parsed, Claude also returns the line items it can read: description, quantity and price for each (tax and totals are not items; discounts are negative items).
+- AC2: Line items are stored on the receipt; a receipt with no readable items still saves normally.
+- AC3: If the item prices don't add up to the subtotal (within a small rounding margin), the line items are flagged for review.
+- AC4: The receipt screen lists the items with their prices, and I can edit, add or delete an item before confirming.
+- AC5: Automated tests cover a receipt with items, one with none, and one whose items don't add up (Claude mocked).
