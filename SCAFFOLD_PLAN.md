@@ -73,7 +73,8 @@ api/
 │   │   └── ai/
 │   │       ├── receiptExtractor.ts   # image -> structured fields (Claude API, S1-T15)
 │   │       ├── extraction.schema.ts  # zod schema for Claude's output
-│   │       └── categoryClassifier.ts # fields + user's categories -> category + confidence (Jev, S1-T16)
+│   │       └── categoryClassifier.ts # CategoryClassifier interface: Jev (primary, with timeout), Claude suggestion (backup),
+│   │                                 # chosen by CATEGORY_CLASSIFIER (S1-T16)
 │   ├── middleware/
 │   │   ├── auth.ts               # verify JWT, attach req.user
 │   │   ├── validate.ts           # zod validation for body/query/params
@@ -125,6 +126,7 @@ api/
 - Every query scoped by `req.user.id` (ownership isolation) with a test
 - zod at every boundary: requests and AI output
 - AI split by job: Claude extracts fields, Jev picks the category with a confidence score, plain code computes review flags; confidence thresholds live in config
+- No single point of failure in the AI path: Jev has a timeout and a backup (Claude's suggestion), and a config switch turns it off
 - Single error shape and `asyncHandler` so controllers never need try/catch
 - Mongoose indexes: unique `User.email`, compound `Receipt {userId, date}`
 - Upload limits (size, `image/jpeg|png|webp` only), generated filenames
@@ -201,7 +203,7 @@ Mobile is not built in Jenkins (Expo builds need EAS); optionally lint + test th
 
 - `.gitignore`: `node_modules`, `dist`, `.env*` (but keep `.env.example`), `uploads/*` (keep `.gitkeep`), `coverage`, `.expo`, OS/editor files
 - `.editorconfig`, shared Prettier settings (single quotes, trailing commas, 100 cols)
-- `.env.example` files: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `ANTHROPIC_API_KEY`, `TYPESAFE_API_KEY`, `CORS_ORIGIN`, `PORT`; mobile: `EXPO_PUBLIC_API_URL`
+- `.env.example` files: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `ANTHROPIC_API_KEY`, `TYPESAFE_API_KEY`, `CATEGORY_CLASSIFIER`, `CORS_ORIGIN`, `PORT`; mobile: `EXPO_PUBLIC_API_URL`
 - Conventional commits (`feat:`, `fix:`, `chore:`), feature branches, PR template with a Definition of Done checklist
 - Pin Node version (`.nvmrc`, `engines`), commit lockfiles
 - Never commit real receipts or API keys; demo uses synthetic receipts

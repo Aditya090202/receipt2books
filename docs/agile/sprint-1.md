@@ -4,7 +4,7 @@
 |---|---|
 | Dates | Wed 2026-10-07 to Tue 2026-10-20 (2 weeks, 14 sessions) |
 | Team | Aditya (Product Owner, Scrum Master and Developer) |
-| Capacity | 1 to 2 hours/day, about 23 hours total |
+| Capacity | 1 to 2 hours/day, about 24 hours total |
 | Planned | 7 stories, 24 points |
 
 ## Sprint goal
@@ -66,10 +66,10 @@ One session = one day's 1 to 2 hours. Task IDs (e.g. `S1-T05`) go in branch name
 | 9 Thu 10-15 | S1-T12 | `mobile/` scaffold: Expo Router, TanStack Query; API client; SecureStore + AuthContext | US-02 | 1.5h |
 | 10 Fri 10-16 | S1-T13 | Login and register screens; run on phone via Expo Go (LAN IP) | US-01, US-02 | 2h |
 | 11 Sat 10-17 | S1-T14 | Receipt list (pull to refresh, empty state) and manual add form | US-04, US-05 | 2h |
-| 12 Sun 10-18 | S1-T15 | `POST /receipts/parse`: multer limits, disk storage, Claude extraction with JSON schema + zod + one retry; save as `parsed` | US-07 | 1.5h |
-| 13 Mon 10-19 | S1-T16 | Jev category choice via the TypeSafe SDK; flag the category when confidence < 0.5 or Jev fails (fallback "Uncategorized"); parse tests with Claude and Jev mocked | US-07 | 1.5h |
+| 12 Sun 10-18 | S1-T15 | `POST /receipts/parse`: multer limits, disk storage, Claude extraction (fields + `suggestedCategory`) with JSON schema + zod + one retry; save as `parsed` | US-07 | 1.5h |
 | | S1-T17 | App: camera/gallery picker, compression, upload with loading and error states | US-07 | 1h |
-| 14 Tue 10-20 | S1-T18 | Try 8 to 10 sample receipts: note extraction accuracy and compare Jev's confidence with the right category to sanity-check the 0.5 / 0.9 thresholds | US-07 | 0.5h |
+| 13 Mon 10-19 | S1-T16 | Category classifier: Jev via the TypeSafe SDK with a timeout, Claude's suggestion as backup, `CATEGORY_CLASSIFIER` switch (`jev`/`claude`/`none`); flag the category when confidence < 0.5 or nothing usable; parse tests with Claude and Jev mocked | US-07 | 2h |
+| 14 Tue 10-20 | S1-T18 | Try 8 to 10 sample receipts: note extraction accuracy; compare Jev's pick and confidence, and Claude's backup suggestion, with the right category to sanity-check the 0.5 / 0.9 thresholds | US-07 | 0.5h |
 | | S1-T19 | Sprint review + retro in retro.md; plan Sprint 2 | – | 1h |
 
 **End of sprint:** a demoable headline feature. You can snap a receipt and see it in the list.

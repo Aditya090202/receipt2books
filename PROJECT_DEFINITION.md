@@ -46,7 +46,7 @@ An AI expense tracker with a mobile app and a web API. The user snaps a receipt,
 ## 3b. Decisions made
 
 - LLM provider: Anthropic Claude (field extraction from the photo)
-- Category classifier: Jev by TypeSafe AI (Choice judgment over the user's categories, with confidence)
+- Category classifier: Jev by TypeSafe AI (Choice judgment over the user's categories, with confidence), with Claude's own suggestion as the backup and a config switch (`CATEGORY_CLASSIFIER`) to change or disable the classifier without a code change
 - Receipts are saved right after parsing as `parsed` (needs review) and become `confirmed` when the user confirms; reports count confirmed receipts only
 - Image storage: Docker volume / local disk (limitation noted in README)
 - API hosting: Render (with MongoDB Atlas)
@@ -62,7 +62,7 @@ An AI expense tracker with a mobile app and a web API. The user snaps a receipt,
 | Auth | JWT (access token), bcrypt | Standard REST auth |
 | Validation | zod | Shared request/LLM-output schemas |
 | LLM | Anthropic Claude API (vision + structured JSON output) | Reads fields from the receipt photo |
-| Classifier | Jev by TypeSafe AI (`@typesafe-ai/sdk`) | Picks the category with a calibrated confidence score |
+| Classifier | Jev by TypeSafe AI (`@typesafe-ai/sdk`); Claude as backup | Jev picks the category with a calibrated confidence score; Claude's suggestion covers Jev outages |
 | Testing | Jest + Supertest + mongodb-memory-server | Fast, no external DB in CI |
 | Lint | ESLint + Prettier | Pipeline lint stage |
 | Containers | Docker, docker-compose | API + Mongo |
@@ -85,8 +85,8 @@ Express API ──> MongoDB (users, receipts, categories)
 Receipt upload flow:
 1. App picks/captures a photo, resizes/compresses it client side.
 2. `POST /api/receipts/parse` (multipart) sends the image to the API.
-3. **Extract (Claude):** the API sends the image with a JSON schema. Claude returns vendor, date, total, subtotal, tax, currency and a short items summary, using `null` for anything it can't read. The response is validated with zod (one retry on invalid output).
-4. **Categorise (Jev):** a Choice judgment over the user's categories (name → description), with the vendor and items summary as state. Returns the chosen category, probabilities and a 0–1 confidence. "Uncategorized" is the no-match option.
+3. **Extract (Claude):** the API sends the image with a JSON schema. Claude returns vendor, date, total, subtotal, tax, currency, a short items summary and a `suggestedCategory` picked from the user's category names (the backup, at no extra call), using `null` for anything it can't read. The response is validated with zod (one retry on invalid output).
+4. **Categorise (Jev):** a Choice judgment over the user's categories (name → description), with the vendor and items summary as state. Returns the chosen category, probabilities and a 0–1 confidence. "Uncategorized" is the no-match option. The call has a short timeout (about 3 seconds). If Jev fails or times out, Claude's `suggestedCategory` is used instead; it has no trustworthy confidence, so it is always shown as "suggested". The receipt records which one chose (`categorySource`).
 5. **Flag (code):** review flags are computed per field:
    - vendor missing
    - total not a positive number, or subtotal + tax doesn't match the total
@@ -96,7 +96,9 @@ Receipt upload flow:
 7. **Review:** the edit screen highlights flagged fields. A category with confidence 0.5–0.9 is shown as "suggested"; 0.9 or above is shown normally.
 8. **Confirm:** `PATCH` with the user's edits sets `status: "confirmed"` and clears the flags. Reports and the monthly total count confirmed receipts only.
 
-Failure handling: if Claude fails or returns invalid output twice, the API returns an error and the app offers retry or manual entry. If Jev fails, the receipt is still saved as "Uncategorized" with the category flagged.
+Failure handling: if Claude fails or returns invalid output twice, the API returns an error and the app offers retry or manual entry. If Jev fails or times out, Claude's suggested category is used. If there is no usable suggestion either, the receipt is still saved as "Uncategorized" with the category flagged.
+
+Classifier switch: `CATEGORY_CLASSIFIER` is `jev` (default: Jev first, Claude as backup), `claude` (skip Jev entirely) or `none` (always "Uncategorized", the user picks). Changing it needs a config change and restart, not a code change, so a Jev outage or bad behaviour can be handled in minutes.
 
 Thresholds (0.5 and 0.9) are starting values, kept in config and tuned after testing sample receipts.
 
@@ -106,7 +108,7 @@ The shape of the three document types stored in MongoDB. Mongoose schemas enforc
 
 **User**: `email` (unique), `passwordHash`, `name`, `createdAt`
 **Category**: `userId`, `name`, `description` (what belongs in it; sent to Jev as the option's criteria), `color`, `isDefault`
-**Receipt**: `userId`, `vendor`, `date`, `total`, `currency`, `categoryId`, `itemsSummary`, `imagePath`, `status` (`parsed` | `confirmed`), `categoryConfidence` (Jev, 0–1; null for manual entries), `reviewFlags` (list of `{ field, reason }`), `rawAiOutput` (Claude's extraction and Jev's judgment, kept for debugging and accuracy stats), `createdAt`, `updatedAt`
+**Receipt**: `userId`, `vendor`, `date`, `total`, `currency`, `categoryId`, `itemsSummary`, `imagePath`, `status` (`parsed` | `confirmed`), `categorySource` (`jev` | `claude` | `user`: who chose the category; becomes `user` if the person changes it), `categoryConfidence` (0–1, only when Jev chose; otherwise null), `reviewFlags` (list of `{ field, reason }`), `rawAiOutput` (Claude's extraction and Jev's judgment, kept for debugging and accuracy stats), `createdAt`, `updatedAt`
 
 Planned (backlog story US-12): `lineItems`, an array of `{ description, quantity, price }` stored *inside* each receipt document rather than in a separate collection. Items are always read together with their receipt, so embedding them is the natural MongoDB design (a relational database would use a separate table and a join).
 
@@ -163,7 +165,7 @@ Branching: `main` + short-lived `feature/*` branches, PRs with descriptive commi
 | LLM returns malformed JSON | Structured output / JSON schema plus zod validation and one retry; user can always edit |
 | Jenkins setup is slow | Run Jenkins in Docker with a prebuilt LTS image; keep the Jenkinsfile to 3 stages |
 | LLM API cost / rate limits | Downscale images, cache raw output, mock in tests, set a spend cap |
-| Jev / TypeSafe unavailable | Save the receipt as "Uncategorized" with the category flagged; the user picks it on review |
+| Jev / TypeSafe slow, unavailable or discontinued | Short timeout, then Claude's suggested category as backup; `CATEGORY_CLASSIFIER` switches Jev off without a code change; last resort is "Uncategorized" with the category flagged |
 | AI confidence is misleading | Don't ask Claude to rate itself; use Jev's confidence for the category and code checks for other fields; tune thresholds on sample receipts |
 | Scope creep | Anything not in section 3 goes to the backlog, not the sprint |
 | Receipt images and privacy | Do not commit real receipts; use sample/synthetic receipts in demo and README |

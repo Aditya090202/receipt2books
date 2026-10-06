@@ -4,7 +4,8 @@
  *
  *   - photo thumbnail + editable vendor, date, total, category   (US-08 AC1)
  *   - highlight flagged fields with their reason (reviewFlags)  (US-08 AC2)
- *   - category with confidence 0.5–0.9 shown as "suggested"     (US-08 AC3)
+ *   - category shown as "suggested" when confidence is 0.5–0.9
+ *     or the backup (Claude) chose it                           (US-08 AC3)
  *   - Confirm saves edits, sets status confirmed, clears flags  (US-08 AC4)
  *   - Delete with a confirmation prompt                         (US-06)
  *

@@ -12,7 +12,9 @@
  *   - itemsSummary: string, optional: short text of what was bought (from Claude; used by Jev)
  *   - imagePath: string, optional (set by the parse flow in S1-T15)
  *   - status: "parsed" (needs review) | "confirmed" (manual entries start as "confirmed")
- *   - categoryConfidence: number 0–1 from Jev, null for manual entries
+ *   - categorySource: "jev" | "claude" | "user": who chose the category
+ *       (manual entries are "user"; becomes "user" when the person changes an AI choice)
+ *   - categoryConfidence: number 0–1, only when Jev chose; otherwise null
  *   - reviewFlags: array of { field: "vendor" | "date" | "total" | "category", reason: string },
  *       cleared when the user confirms
  *   - rawAiOutput: object, optional: Claude's extraction and Jev's judgment as returned

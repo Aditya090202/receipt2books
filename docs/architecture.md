@@ -10,6 +10,7 @@ Express API ──> MongoDB (users, receipts, categories)
    |
    ├──> Claude API (image + JSON schema -> vendor, date, total, currency, items summary)
    └──> Jev / TypeSafe (fields + user's categories -> category, confidence)
+        backup: Claude's suggestedCategory if Jev fails or times out
 ```
 
 ## Receipt parse flow
@@ -27,6 +28,8 @@ Extract (Claude) → categorise (Jev Choice over the user's categories) → flag
   - Ownership scoping: every query filters by userId; other users' records return 404
   - AI split by job: Claude extracts (structured output + zod), Jev classifies with calibrated confidence,
     code computes review flags; why not ask the LLM to rate its own confidence
+  - Depending on a new service safely: timeout, backup classifier, config kill switch (`CATEGORY_CLASSIFIER`),
+    and recording `categorySource` to compare Jev and Claude accuracy
   - Save as `parsed` first, confirm later (nothing lost; reports use confirmed data only)
   - Images on local disk / Docker volume (limitation, and what production would use)
 -->

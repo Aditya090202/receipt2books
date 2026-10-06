@@ -64,16 +64,17 @@ As Sam, I want to photograph a receipt and have vendor, date, total and category
 - AC1: I can take a photo with the camera or pick one from my gallery.
 - AC2: The image is compressed before upload; files over the size limit or of the wrong type are rejected with a clear message.
 - AC3: Within ~10 seconds I see the parsed receipt with vendor, date, total and currency read from the photo by Claude; anything Claude can't read is left empty, not guessed.
-- AC4: The category is chosen by Jev (TypeSafe) from my own categories, with its confidence score saved on the receipt; if nothing fits, it is "Uncategorized".
+- AC4: The category is chosen from my own categories by Jev (TypeSafe); its confidence score and who chose it (Jev, Claude or me) are saved on the receipt; if nothing fits, it is "Uncategorized".
 - AC5: The parsed receipt is saved straight away with status "parsed" (needs review), so nothing is lost if I close the app before reviewing it.
-- AC6: If Claude's response is invalid or the call fails, I see an error and can retry or enter the receipt manually. If Jev fails, the receipt is still saved as "Uncategorized" with the category flagged for review.
-- AC7: Automated tests cover success, malformed Claude output, Claude failure and Jev failure, with both services mocked.
+- AC6: If Claude's response is invalid or the call fails, I see an error and can retry or enter the receipt manually. If Jev fails or takes longer than about 3 seconds, the category Claude suggested during extraction is used instead and shown as "suggested"; if neither works, the receipt is saved as "Uncategorized" with the category flagged for review.
+- AC7: The classifier can be changed with one config setting (`CATEGORY_CLASSIFIER`: `jev`, `claude` or `none`) and a restart, with no code change.
+- AC8: Automated tests cover success, malformed Claude output, Claude failure, Jev failure falling back to Claude, and the switch set to `claude`, with both services mocked.
 
 ### US-08 Correct the AI's parse (5 pts, Must)
 As Sam, I want to review and fix what the AI extracted so that my expense records are accurate.
 - AC1: Every parsed field is editable on the receipt screen, next to a thumbnail of the photo.
 - AC2: Fields that need checking are highlighted with a reason: vendor missing; total not a positive number or not matching subtotal + tax; date invalid, in the future or over a year old; category confidence below 0.5.
-- AC3: A category with confidence from 0.5 to 0.9 is shown as "suggested"; 0.9 or above is shown normally (starting thresholds, kept in config and tuned after testing sample receipts).
+- AC3: A category with confidence from 0.5 to 0.9, or one chosen by the backup (Claude), is shown as "suggested"; 0.9 or above is shown normally (starting thresholds, kept in config and tuned after testing sample receipts).
 - AC4: Tapping Confirm saves my edits, marks the receipt as confirmed and clears its review flags.
 - AC5: The list shows which receipts still need review.
 

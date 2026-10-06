@@ -1,7 +1,7 @@
 # Receipt2Books: 4-Week Plan
 
 Dates: Wed 2026-10-07 to Tue 2026-11-03.
-Pace: 1 to 2 hours a day, about 46 hours total, run as two 2-week sprints.
+Pace: 1 to 2 hours a day, about 47 hours total, run as two 2-week sprints.
 See [PROJECT_DEFINITION.md](PROJECT_DEFINITION.md) for scope, stack and API, and [docs/agile/](docs/agile/) for the backlog and sprint details.
 
 ## Roadmap
