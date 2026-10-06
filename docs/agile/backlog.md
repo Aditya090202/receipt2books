@@ -111,12 +111,12 @@ As a developer, I want every push to be linted and tested automatically so that 
 - AC3: Test results are published in Jenkins (JUnit report).
 
 ### EN-03 Live deployment (3 pts, Must)
-As a recruiter, I want to reach a live API so that I can see the project actually runs.
+As Sam, I want the app to work wherever I am, not just on my home Wi-Fi, so that I can snap receipts right after I pay.
 - AC1: The API is deployed on Render with MongoDB Atlas; `/health` returns 200.
 - AC2: The mobile app works end to end against the deployed API.
 
-### EN-04 Portfolio-ready README and demo (2 pts, Must)
-As a hiring manager, I want a clear README and demo video so that I can understand the project in two minutes.
+### EN-04 Clear README and demo video (2 pts, Must)
+As a developer discovering the project, I want a clear README and demo video so that I can understand what it does and run it myself within a few minutes.
 - AC1: README has a pitch, screenshots, architecture diagram, setup steps, API summary and design decisions.
 - AC2: A 60 to 90 second demo video is linked.
 

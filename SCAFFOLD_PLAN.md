@@ -219,6 +219,6 @@ Confirmed: Expo Router, TanStack Query, Mongoose, pino logging, npm, single mono
 3. **Mongoose** (as planned) vs the native MongoDB driver. Mongoose is more common and gives schemas and validation.
 4. **Logging with pino.** Small addition; skip if you want fewer dependencies.
 5. **Package manager:** npm (assumed). Say so if you prefer pnpm or yarn.
-6. **Monorepo vs two repos.** I recommend one repo, since recruiters see everything in one place.
+6. **Monorepo vs two repos.** I recommend one repo, so the code, docs and sprint board live in one place.
 
 Once you've reviewed this, tell me what to change and when to scaffold.

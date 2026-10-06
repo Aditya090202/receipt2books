@@ -11,7 +11,7 @@
 
 ## Sprint goal
 
-> Users can correct the AI's parse and see monthly spending by category, and the project is containerised, built in Jenkins, live on Render and portfolio-ready.
+> Users can correct the AI's parse and see monthly spending by category, and the project is containerised, built in Jenkins, live on Render and documented.
 
 ## Definition of Done
 
@@ -27,7 +27,7 @@ Same as [Sprint 1](sprint-1.md#definition-of-done-applies-to-every-story), plus:
 | US-15 | See this month's total at a glance | 1 |
 | EN-01 | Containerised API + image build in Jenkins | 5 |
 | EN-03 | Live deployment | 3 |
-| EN-04 | Portfolio-ready README and demo | 2 |
+| EN-04 | Clear README and demo video | 2 |
 | | **Total** | **22** |
 
 ## Sprint backlog by session
@@ -58,7 +58,7 @@ Same as [Sprint 1](sprint-1.md#definition-of-done-applies-to-every-story), plus:
 | 11 Sat 10-31 | S2-T13 | Screenshots and 60 to 90 second demo video | EN-04 | 2h |
 | 12 Sun 11-01 | S2-T14 | README: pitch, architecture diagram, setup, API summary, design decisions, what's next | EN-04 | 1.5h |
 | 13 Mon 11-02 | S2-T15 | Buffer: overruns, bugs, cleanup (no secrets, pinned versions) | – | 1.5h |
-| 14 Tue 11-03 | S2-T16 | Sprint review + project retro; update resume, LinkedIn; pin repo | – | 1h |
+| 14 Tue 11-03 | S2-T16 | Sprint review + project retro; pin the repo on your GitHub profile | – | 1h |
 
 ## Burndown
 
@@ -83,4 +83,4 @@ Same as [Sprint 1](sprint-1.md#definition-of-done-applies-to-every-story), plus:
 ## Scope rules
 
 - If behind at the Week 3 checkpoint, cut in this order: monthly total header (US-15), review-flag checks and highlighting (US-08 AC2, AC3), month switcher (show current month only), chart polish.
-- Never cut: US-08 confirm flow (AC4), EN-01, EN-03, EN-04. Deployment and the README are what recruiters actually see.
+- Never cut: US-08 confirm flow (AC4), EN-01, EN-03, EN-04. Without deployment and a README, nobody else can use or understand the project.

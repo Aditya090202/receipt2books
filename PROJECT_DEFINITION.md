@@ -6,17 +6,22 @@ Status: Not started
 
 ## 1. Purpose
 
-Portfolio project for Intuit's Early Career Software Engineer application (general posting, <2 years experience, added 2026-09-29). The JD spans frontend, backend, fullstack and mobile tracks, and also asks for GenAI awareness, REST APIs, cloud/SaaS experience and rapid prototyping.
+### Why I'm building it
+Paper receipts pile up, and by the end of the month it's hard to say where the money actually went. Typing each receipt into a spreadsheet or budgeting app is tedious enough that most people give up. Receipt2Books removes that step: take a photo, and the app reads the receipt, categorises it and adds it to a monthly picture of your spending.
 
-### Resume gaps this project closes
-MongoDB, Express, React Native/Flutter, Jenkins, explicit Agile/Scrum, mobile experience.
+### What I want to learn
+- Building a mobile app end to end with React Native (Expo)
+- Designing a REST API with Node.js and Express, backed by a document database (MongoDB)
+- Using AI where it is genuinely useful: an LLM to read the receipt, a classifier with a confidence score to pick the category, and a person to confirm anything uncertain
+- Automating builds and tests with Docker and Jenkins, and deploying to the cloud
+- Running the work as Scrum sprints with a backlog, a board, standups and retrospectives
 
-### Already covered by past work (not repeated)
-Full-stack web (React, FastAPI, Next.js, PostgreSQL), WebSockets, Azure AI pipeline (Azure OpenAI, Document Intelligence), LangChain/CrewAI.
+### Building on earlier work
+I've already built full-stack web apps (React, Next.js, FastAPI, PostgreSQL) and AI document pipelines (Azure OpenAI, Document Intelligence, LangChain/CrewAI), so this project deliberately uses a different stack.
 
 ## 2. Product summary
 
-An AI expense tracker with a mobile app and a web API. The user snaps a receipt, an LLM extracts vendor, date, total and category, and the result lands in the user's expense list. There is no separate ledger component: the expense list is the receipts stored in MongoDB, shown in the list screen and summarised on the Reports screen. It is built for personal use: people who want their everyday spending categorised and a clear picture of how much they spend each month (the same space as Intuit's personal-finance products such as Credit Karma).
+An AI expense tracker with a mobile app and a web API. The user snaps a receipt, an LLM extracts vendor, date, total and category, and the result lands in the user's expense list. There is no separate ledger component: the expense list is the receipts stored in MongoDB, shown in the list screen and summarised on the Reports screen. It is built for personal use: people who want their everyday spending categorised and a clear picture of how much they spend each month.
 
 ## 3. Scope
 
@@ -51,9 +56,9 @@ An AI expense tracker with a mobile app and a web API. The user snaps a receipt,
 
 | Layer | Choice | Why |
 |---|---|---|
-| Mobile | React Native (Expo, TypeScript) | Closes mobile gap, reuses React skills |
-| API | Node.js + Express (TypeScript) | Closes Express gap |
-| Database | MongoDB (Mongoose) | Closes MongoDB gap |
+| Mobile | React Native (Expo, TypeScript) | One codebase for iOS and Android; builds on my React experience |
+| API | Node.js + Express (TypeScript) | Minimal, widely used web framework; TypeScript end to end with the app |
+| Database | MongoDB (Mongoose) | Receipts are self-contained documents, and the AI's JSON output can be stored as-is |
 | Auth | JWT (access token), bcrypt | Standard REST auth |
 | Validation | zod | Shared request/LLM-output schemas |
 | LLM | Anthropic Claude API (vision + structured JSON output) | Reads fields from the receipt photo |
@@ -61,8 +66,8 @@ An AI expense tracker with a mobile app and a web API. The user snaps a receipt,
 | Testing | Jest + Supertest + mongodb-memory-server | Fast, no external DB in CI |
 | Lint | ESLint + Prettier | Pipeline lint stage |
 | Containers | Docker, docker-compose | API + Mongo |
-| CI | Jenkins (local, Jenkinsfile in repo) | Closes Jenkins gap |
-| Hosting | Render or Railway (API), MongoDB Atlas free tier | Cloud/SaaS keyword |
+| CI | Jenkins (local, Jenkinsfile in repo) | Pipeline defined as code; lint, test and build on every push |
+| Hosting | Render (API), MongoDB Atlas free tier | Free tiers, managed database, deploys from GitHub |
 | Charts | react-native-svg based chart lib (e.g. victory-native or react-native-gifted-charts) | Category chart |
 
 ## 5. Architecture
