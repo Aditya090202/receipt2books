@@ -11,7 +11,7 @@ The product backlog is the ordered list of everything the product might need. Th
 
 ## Personas
 
-- **Sam, freelancer:** collects paper receipts and wants them categorised for tax time without typing.
+- **Sam, everyday spender:** pays for groceries, meals out, transport and shopping, ends up with a pile of paper receipts, and wants to know where their money goes each month without typing anything in.
 
 ---
 
@@ -134,10 +134,21 @@ As a hiring manager, I want a clear README and demo video so that I can understa
 | ID | Story | Pts | Priority |
 |---|---|---|---|
 | US-16 | See a 6-month spending trend chart (new aggregation endpoint + bar chart) | 3 | Could |
-| US-14 | Export confirmed receipts to QuickBooks Online (OAuth 2.0, map categories to expense accounts) | 8 | Should |
 | US-10 | Create and edit my own categories in the app | 3 | Could |
-| US-11 | Export a month to CSV for my accountant | 3 | Could |
-| US-12 | Extract line items from receipts | 8 | Could |
+| US-11 | Export a month of expenses to CSV to use in a spreadsheet | 3 | Could |
+| US-12 | See the price of each item on a receipt (refined below) | 5 | Should |
 | US-13 | Convert foreign currencies to my home currency | 5 | Could |
 | EN-05 | Refresh tokens | 3 | Could |
 | EN-06 | Store images in cloud object storage | 3 | Could |
+
+### Refined future stories
+
+Future stories get acceptance criteria once they're likely to be pulled into a sprint (backlog refinement).
+
+### US-12 See the price of each item on a receipt (5 pts, Should)
+As Sam, I want each item on a receipt saved with its price so that I can see exactly what I paid for, not just the total.
+- AC1: When a receipt is parsed, Claude also returns the line items it can read: description, quantity and price for each (tax and totals are not items; discounts are negative items).
+- AC2: Line items are stored on the receipt; a receipt with no readable items still saves normally.
+- AC3: If the item prices don't add up to the subtotal (within a small rounding margin), the line items are flagged for review.
+- AC4: The receipt screen lists the items with their prices, and I can edit, add or delete an item before confirming.
+- AC5: Automated tests cover a receipt with items, one with none, and one whose items don't add up (Claude mocked).

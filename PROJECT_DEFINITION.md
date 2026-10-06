@@ -16,7 +16,7 @@ Full-stack web (React, FastAPI, Next.js, PostgreSQL), WebSockets, Azure AI pipel
 
 ## 2. Product summary
 
-An AI expense tracker with a mobile app and a web API. The user snaps a receipt, an LLM extracts vendor, date, total and category, and the result lands in the user's expense list. There is no separate ledger component: the expense list is the receipts stored in MongoDB, shown in the list screen and summarised on the Reports screen. It mirrors QuickBooks-style bookkeeping (receipt capture, categorisation, monthly reporting).
+An AI expense tracker with a mobile app and a web API. The user snaps a receipt, an LLM extracts vendor, date, total and category, and the result lands in the user's expense list. There is no separate ledger component: the expense list is the receipts stored in MongoDB, shown in the list screen and summarised on the Reports screen. It is built for personal use: people who want their everyday spending categorised and a clear picture of how much they spend each month (the same space as Intuit's personal-finance products such as Credit Karma).
 
 ## 3. Scope
 
@@ -33,7 +33,7 @@ An AI expense tracker with a mobile app and a web API. The user snaps a receipt,
 - Deployed API, README with screenshots, demo video
 
 ### Out of scope (stretch only if time remains)
-- Line-item extraction, multi-currency conversion, CSV/QuickBooks export
+- Line-item prices (backlog story US-12), multi-currency conversion, CSV export (US-11)
 - Offline mode, push notifications, OCR fallback
 - Refresh tokens, roles, team accounts
 - App store publishing (Expo Go / dev build is enough)
@@ -102,6 +102,8 @@ The shape of the three document types stored in MongoDB. Mongoose schemas enforc
 **User**: `email` (unique), `passwordHash`, `name`, `createdAt`
 **Category**: `userId`, `name`, `description` (what belongs in it; sent to Jev as the option's criteria), `color`, `isDefault`
 **Receipt**: `userId`, `vendor`, `date`, `total`, `currency`, `categoryId`, `itemsSummary`, `imagePath`, `status` (`parsed` | `confirmed`), `categoryConfidence` (Jev, 0–1; null for manual entries), `reviewFlags` (list of `{ field, reason }`), `rawAiOutput` (Claude's extraction and Jev's judgment, kept for debugging and accuracy stats), `createdAt`, `updatedAt`
+
+Planned (backlog story US-12): `lineItems`, an array of `{ description, quantity, price }` stored *inside* each receipt document rather than in a separate collection. Items are always read together with their receipt, so embedding them is the natural MongoDB design (a relational database would use a separate table and a join).
 
 Indexes (MongoDB is non-relational, but still uses indexes to make queries fast and enforce uniqueness; Mongoose creates them from the schema):
 - `User.email` unique, so duplicate accounts are blocked by the database itself

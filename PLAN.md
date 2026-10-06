@@ -45,5 +45,5 @@ Keyword map to the JD: React Native (mobile track), Express + MongoDB (backend t
 
 ## Next (backlog after Sprint 2)
 
-- Export confirmed receipts to QuickBooks Online (Intuit sandbox, OAuth 2.0); a strong Intuit-specific talking point
-- Custom categories in the app, CSV export, line items, multi-currency
+- Item prices on receipts (US-12), the first candidate if Sprint 2 finishes early
+- Custom categories in the app, CSV export, 6-month trend chart, multi-currency
