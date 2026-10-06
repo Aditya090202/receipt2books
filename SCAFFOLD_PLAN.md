@@ -16,8 +16,8 @@ receipt2books/
 ├── docs/
 │   ├── agile/
 │   │   ├── backlog.md            # user stories, acceptance criteria, points
-│   │   ├── sprint-1.md           # Sprint 1 goal + backlog (Oct 1–14)
-│   │   ├── sprint-2.md           # Sprint 2 goal + backlog (Oct 15–28)
+│   │   ├── sprint-1.md           # Sprint 1 goal + backlog (Oct 7–20)
+│   │   ├── sprint-2.md           # Sprint 2 goal + backlog (Oct 21 – Nov 3)
 │   │   ├── standups.md           # daily log
 │   │   └── retro.md              # review + retrospective per sprint
 │   ├── api.md                    # endpoint reference (or openapi.yaml)

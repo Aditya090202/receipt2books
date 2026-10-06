@@ -1,6 +1,6 @@
 # Receipt2Books: 4-Week Plan
 
-Dates: Thu 2026-10-01 to Wed 2026-10-28.
+Dates: Wed 2026-10-07 to Tue 2026-11-03.
 Pace: 1 to 2 hours a day, about 46 hours total, run as two 2-week sprints.
 See [PROJECT_DEFINITION.md](PROJECT_DEFINITION.md) for scope, stack and API, and [docs/agile/](docs/agile/) for the backlog and sprint details.
 
@@ -8,10 +8,10 @@ See [PROJECT_DEFINITION.md](PROJECT_DEFINITION.md) for scope, stack and API, and
 
 | Week | Dates | Sprint | Milestone at the end of the week |
 |---|---|---|---|
-| 1 | Oct 1 – Oct 7 | Sprint 1 | API with JWT auth, MongoDB models and tested receipt CRUD |
-| 2 | Oct 8 – Oct 14 | Sprint 1 | Jenkins runs lint + tests; Expo app logs in, lists receipts, and snaps a receipt that Claude parses |
-| 3 | Oct 15 – Oct 21 | Sprint 2 | Edit/confirm flow, delete, monthly chart, monthly total header; Dockerfile + compose |
-| 4 | Oct 22 – Oct 28 | Sprint 2 | Jenkins builds the image; live on Render; README, demo video, resume updated |
+| 1 | Oct 7 – Oct 13 | Sprint 1 | API with JWT auth, MongoDB models and tested receipt CRUD |
+| 2 | Oct 14 – Oct 20 | Sprint 1 | Jenkins runs lint + tests; Expo app logs in, lists receipts, and snaps a receipt that Claude parses |
+| 3 | Oct 21 – Oct 27 | Sprint 2 | Edit/confirm flow, delete, monthly chart, monthly total header; Dockerfile + compose |
+| 4 | Oct 28 – Nov 3 | Sprint 2 | Jenkins builds the image; live on Render; README, demo video, resume updated |
 
 The order puts the headline feature (AI capture) and Jenkins in the first two weeks, so the repo is worth showing by mid-October even if later work slips.
 

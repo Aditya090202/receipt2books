@@ -1,6 +1,6 @@
 # Sprint Reviews and Retrospectives
 
-## Sprint 1 (Oct 1 – Oct 14): review
+## Sprint 1 (Oct 7 – Oct 20): review
 
 <!-- TODO (S1-T19) -->
 - Sprint goal met? yes / partly / no, and why
@@ -17,7 +17,7 @@
 
 ---
 
-## Sprint 2 (Oct 15 – Oct 28): review
+## Sprint 2 (Oct 21 – Nov 3): review
 
 <!-- TODO (S2-T16) -->
 

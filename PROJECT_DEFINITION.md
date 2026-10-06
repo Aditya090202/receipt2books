@@ -1,7 +1,7 @@
 # Receipt2Books: Project Definition
 
 Owner: Aditya Mathur
-Timebox: 4 weeks at 1 to 2 hours/day (2026-10-01 to 2026-10-28), two 2-week sprints
+Timebox: 4 weeks at 1 to 2 hours/day (2026-10-07 to 2026-11-03), two 2-week sprints
 Status: Not started
 
 ## 1. Purpose
@@ -134,7 +134,7 @@ Errors use one JSON shape: `{ "error": { "code", "message", "details?" } }`.
 
 ## 8. Agile / Scrum framing
 
-The project runs as two 2-week sprints (Sprint 1: Oct 1 – Oct 14, Sprint 2: Oct 15 – Oct 28), with a short written standup at the start of each daily session.
+The project runs as two 2-week sprints (Sprint 1: Oct 7 – Oct 20, Sprint 2: Oct 21 – Nov 3), with a short written standup at the start of each daily session.
 - Artifacts kept in repo under `docs/agile/`: product backlog, sprint backlogs (`sprint-1.md`, `sprint-2.md`), user stories with acceptance criteria and story points, daily standup log, sprint review and retrospective at the end of each sprint.
 - Board: GitHub Projects (or a markdown board) with To Do / In Progress / Done.
 - Sprint goals: defined per sprint in `docs/agile/sprint-1.md` and `docs/agile/sprint-2.md`.

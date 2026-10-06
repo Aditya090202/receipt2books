@@ -2,7 +2,7 @@
 
 AI expense tracker: snap a receipt on your phone, an LLM extracts the vendor, date, total and category, and it lands in your expense list with monthly spending charts.
 
-**Status:** in progress, Sprint 1 of 2 (Oct 1 – Oct 14, 2026). See the [sprint board docs](docs/agile/).
+**Status:** in progress, Sprint 1 of 2 (Oct 7 – Oct 20, 2026). See the [sprint board docs](docs/agile/).
 
 **Stack:** React Native (Expo) · Node.js + Express · MongoDB · Claude API · Docker · Jenkins
 

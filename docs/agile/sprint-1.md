@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Dates | Thu 2026-10-01 to Wed 2026-10-14 (2 weeks, 14 sessions) |
+| Dates | Wed 2026-10-07 to Tue 2026-10-20 (2 weeks, 14 sessions) |
 | Team | Aditya (Product Owner, Scrum Master and Developer) |
 | Capacity | 1 to 2 hours/day, about 23 hours total |
 | Planned | 7 stories, 24 points |
@@ -45,16 +45,16 @@ One session = one day's 1 to 2 hours. Task IDs (e.g. `S1-T05`) go in branch name
 
 | Session | Task | Description | Story | Est. |
 |---|---|---|---|---|
-| 1 Thu 10-01 | S1-T01 | Sprint planning: review backlog and this file, set up GitHub Project board | – | 0.5h |
+| 1 Wed 10-07 | S1-T01 | Sprint planning: review backlog and sprint-1.md, set up the GitHub Project board | – | 0.5h |
 | | S1-T02 | Repo + `api/` scaffold: TypeScript, ESLint, Prettier, Jest | – | 1h |
-| 2 Fri 10-02 | S1-T03 | Env validation, `app.ts`/`server.ts`, `/health`, logger | – | 1.5h |
-| 3 Sat 10-03 | S1-T04 | `docker-compose.yml` with MongoDB; Mongoose connection | – | 0.5h |
+| 2 Thu 10-08 | S1-T03 | Env validation, `app.ts`/`server.ts`, `/health`, logger | – | 1.5h |
+| 3 Fri 10-09 | S1-T04 | `docker-compose.yml` with MongoDB; Mongoose connection | – | 0.5h |
 | | S1-T05 | User, Category, Receipt models with indexes | US-01 | 1h |
-| 4 Sun 10-04 | S1-T06 | Register, login, `GET /auth/me`; bcrypt, JWT; seed default categories | US-01, US-02 | 2h |
-| 5 Mon 10-05 | S1-T07 | Auth middleware, error handler, rate limit on auth routes | US-02, US-03 | 1h |
+| 4 Sat 10-10 | S1-T06 | Register, login, `GET /auth/me`; bcrypt, JWT; seed default categories | US-01, US-02 | 2h |
+| 5 Sun 10-11 | S1-T07 | Auth middleware, error handler, rate limit on auth routes | US-02, US-03 | 1h |
 | | S1-T08 | Auth tests: register, duplicate email, login success/failure, 401 | US-01–03 | 0.5h |
-| 6 Tue 10-06 | S1-T09 | Receipt CRUD + category list/create, scoped by user, pagination and filters | US-04, US-05 | 1.5h |
-| 7 Wed 10-07 | S1-T10 | zod validation middleware; CRUD tests incl. cross-user 404; `docs/api.md` | US-03–05 | 1.5h |
+| 6 Mon 10-12 | S1-T09 | Receipt CRUD + category list/create, scoped by user, pagination and filters | US-04, US-05 | 1.5h |
+| 7 Tue 10-13 | S1-T10 | zod validation middleware; CRUD tests incl. cross-user 404; `docs/api.md` | US-03–05 | 1.5h |
 
 **Week 1 checkpoint:** API with auth and receipt CRUD, tested from curl/Postman. About 11 points done.
 
@@ -62,15 +62,15 @@ One session = one day's 1 to 2 hours. Task IDs (e.g. `S1-T05`) go in branch name
 
 | Session | Task | Description | Story | Est. |
 |---|---|---|---|---|
-| 8 Thu 10-08 | S1-T11 | Jenkins in Docker; Jenkinsfile with Install, Lint, Test (JUnit); first green run | EN-02 | 1.5h |
-| 9 Fri 10-09 | S1-T12 | `mobile/` scaffold: Expo Router, TanStack Query; API client; SecureStore + AuthContext | US-02 | 1.5h |
-| 10 Sat 10-10 | S1-T13 | Login and register screens; run on phone via Expo Go (LAN IP) | US-01, US-02 | 2h |
-| 11 Sun 10-11 | S1-T14 | Receipt list (pull to refresh, empty state) and manual add form | US-04, US-05 | 2h |
-| 12 Mon 10-12 | S1-T15 | `POST /receipts/parse`: multer limits, disk storage, Claude extraction with JSON schema + zod + one retry; save as `parsed` | US-07 | 1.5h |
-| 13 Tue 10-13 | S1-T16 | Jev category choice via the TypeSafe SDK; flag the category when confidence < 0.5 or Jev fails (fallback "Uncategorized"); parse tests with Claude and Jev mocked | US-07 | 1.5h |
+| 8 Wed 10-14 | S1-T11 | Jenkins in Docker; Jenkinsfile with Install, Lint, Test (JUnit); first green run | EN-02 | 1.5h |
+| 9 Thu 10-15 | S1-T12 | `mobile/` scaffold: Expo Router, TanStack Query; API client; SecureStore + AuthContext | US-02 | 1.5h |
+| 10 Fri 10-16 | S1-T13 | Login and register screens; run on phone via Expo Go (LAN IP) | US-01, US-02 | 2h |
+| 11 Sat 10-17 | S1-T14 | Receipt list (pull to refresh, empty state) and manual add form | US-04, US-05 | 2h |
+| 12 Sun 10-18 | S1-T15 | `POST /receipts/parse`: multer limits, disk storage, Claude extraction with JSON schema + zod + one retry; save as `parsed` | US-07 | 1.5h |
+| 13 Mon 10-19 | S1-T16 | Jev category choice via the TypeSafe SDK; flag the category when confidence < 0.5 or Jev fails (fallback "Uncategorized"); parse tests with Claude and Jev mocked | US-07 | 1.5h |
 | | S1-T17 | App: camera/gallery picker, compression, upload with loading and error states | US-07 | 1h |
-| 14 Wed 10-14 | S1-T18 | Try 8 to 10 sample receipts: note extraction accuracy and compare Jev's confidence with the right category to sanity-check the 0.5 / 0.9 thresholds | US-07 | 0.5h |
-| | S1-T19 | Sprint review + retro in [retro.md](retro.md); plan Sprint 2 | – | 1h |
+| 14 Tue 10-20 | S1-T18 | Try 8 to 10 sample receipts: note extraction accuracy and compare Jev's confidence with the right category to sanity-check the 0.5 / 0.9 thresholds | US-07 | 0.5h |
+| | S1-T19 | Sprint review + retro in retro.md; plan Sprint 2 | – | 1h |
 
 **End of sprint:** a demoable headline feature. You can snap a receipt and see it in the list.
 

@@ -126,8 +126,8 @@ As a hiring manager, I want a clear README and demo video so that I can understa
 
 | Sprint | Stories | Points |
 |---|---|---|
-| [Sprint 1](sprint-1.md) (Oct 1 – Oct 14) | US-01, US-02, US-03, US-04, US-05, US-07, EN-02 | 24 |
-| [Sprint 2](sprint-2.md) (Oct 15 – Oct 28) | US-06, US-08, US-09, US-15, EN-01, EN-03, EN-04 | 22 |
+| [Sprint 1](sprint-1.md) (Oct 7 – Oct 20) | US-01, US-02, US-03, US-04, US-05, US-07, EN-02 | 24 |
+| [Sprint 2](sprint-2.md) (Oct 21 – Nov 3) | US-06, US-08, US-09, US-15, EN-01, EN-03, EN-04 | 22 |
 
 ## Future work (not planned in Sprints 1–2)
 
