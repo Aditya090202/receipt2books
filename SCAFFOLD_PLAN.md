@@ -104,9 +104,9 @@ api/
 ├── Dockerfile                    # multi-stage, non-root
 ├── .dockerignore
 ├── .env.example
-├── eslint.config.js              # flat config, typescript-eslint
+├── eslint.config.mjs             # flat config, typescript-eslint (ESM file; the project compiles to CommonJS)
 ├── .prettierrc
-├── jest.config.ts
+├── jest.config.js                # ts-jest preset (plain JS so Jest needs no extra loader)
 ├── tsconfig.json
 ├── tsconfig.build.json           # excludes tests from the build
 └── package.json
@@ -206,6 +206,7 @@ Mobile is not built in Jenkins (Expo builds need EAS); optionally lint + test th
 - `.env.example` files: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `ANTHROPIC_API_KEY`, `TYPESAFE_API_KEY`, `CATEGORY_CLASSIFIER`, `CORS_ORIGIN`, `PORT`; mobile: `EXPO_PUBLIC_API_URL`
 - Conventional commits (`feat:`, `fix:`, `chore:`), feature branches, PR template with a Definition of Done checklist
 - Pin Node version (`.nvmrc`, `engines`), commit lockfiles
+- TypeScript is pinned to 6.0.x in `api/`: typescript-eslint and ts-jest don't support TypeScript 7 yet
 - Never commit real receipts or API keys; demo uses synthetic receipts
 
 ## 6. Starter files that get created on scaffold (Sprint 1, Week 1 foundation)

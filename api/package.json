@@ -3,16 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "description": "Receipt2Books REST API (Node.js, Express, MongoDB)",
-  "//": [
-    "Starter scaffold: only Express + TypeScript are installed so far.",
-    "TODO (S1-T02): install the remaining dependencies with npm",
-    "  runtime: mongoose zod jsonwebtoken bcrypt helmet cors express-rate-limit pino pino-http dotenv",
-    "  dev: @types/jsonwebtoken @types/bcrypt @types/cors jest ts-jest @types/jest supertest @types/supertest mongodb-memory-server eslint typescript-eslint prettier",
-    "  later: multer, @anthropic-ai/sdk (S1-T15), @typesafe-ai/sdk (S1-T16)",
-    "  keep typescript on 6.0.x: typescript-eslint and ts-jest don't support TypeScript 7 yet",
-    "TODO (S1-T02): add scripts: lint, format, test, test:ci",
-    "Delete this \"//\" block once done."
-  ],
   "engines": {
     "node": ">=22"
   },
@@ -20,15 +10,49 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --coverage",
+    "check": "npm run typecheck && npm run lint && npm run format:check && npm test"
   },
   "dependencies": {
-    "express": "^5.2.1"
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.7",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.11.1",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
+    "zod": "^4.6.6"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^22.20.4",
+    "@types/supertest": "^7.2.1",
+    "eslint": "^10.12.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.13.0",
+    "jest": "^30.5.2",
+    "mongodb-memory-server": "^11.3.0",
+    "pino-pretty": "^13.2.0",
+    "prettier": "^3.9.10",
+    "supertest": "^7.3.1",
+    "ts-jest": "^29.4.14",
     "tsx": "^4.23.15",
-    "typescript": "~6.0.3"
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.71.1"
   }
 }

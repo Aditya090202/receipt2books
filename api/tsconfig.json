@@ -7,7 +7,9 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "moduleDetection": "force",
-    "types": ["node"],
+    // Each file is compiled on its own (required by ts-jest with "nodenext").
+    "isolatedModules": true,
+    "types": ["node", "jest"],
     "rootDir": ".",
     "strict": true,
     "esModuleInterop": true,

@@ -33,7 +33,10 @@ Requires Node.js 22+ (see `.nvmrc`).
 cd api
 npm install
 npm run dev        # http://localhost:4000
+npm run check      # typecheck + lint + format check + tests (run before every PR)
 ```
+
+Other scripts: `npm test`, `npm run test:watch`, `npm run test:ci` (with coverage), `npm run lint:fix`, `npm run format`.
 
 **Mobile app** (currently the Expo starter app):
 
