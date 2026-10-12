@@ -13,7 +13,7 @@ Error format (all endpoints):
 
 | Method | Path | Auth | Task | Status |
 |---|---|---|---|---|
-| GET | /health | No | S1-T03 | TODO |
+| GET | /health | No | S1-T02, S1-T03 | Done (starter, tested) |
 | POST | /api/auth/register | No | S1-T06 | TODO |
 | POST | /api/auth/login | No | S1-T06 | TODO |
 | GET | /api/auth/me | Yes | S1-T06 | TODO |

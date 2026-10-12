@@ -3,6 +3,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "rootDir": "src",
+    // No Jest globals in production code.
+    "types": ["node"],
     "outDir": "dist",
     "noEmit": false,
     "sourceMap": true

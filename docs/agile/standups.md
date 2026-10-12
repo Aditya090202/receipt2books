@@ -14,4 +14,8 @@ Template:
 
 ---
 
-<!-- TODO (S1-T01): first entry for Sprint 1, Session 1 -->
+## Sprint 1, Session 1: 2026-10-11
+- Last session: none (first session). Done before the sprint: backlog, both sprint plans and the GitHub Project board; starter API and Expo app merged (PR #58).
+- This session: S1-T01 (sprint planning, board check) and S1-T02 (API tooling: ESLint, Prettier, Jest, Supertest, remaining dependencies).
+- Blockers: started 4 days after the planned Oct 7 start, so sessions 1 to 4 are behind schedule. Docker wasn't responding in WSL (`docker: Input/output error`), which S1-T04 needs; resolved the same day after restarting Docker Desktop.
+- Points remaining: 24 (S1-T01 and S1-T02 are setup tasks with no story points)
