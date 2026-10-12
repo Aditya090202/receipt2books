@@ -22,3 +22,28 @@ describe('unknown routes', () => {
     expect(res.body).toEqual({ error: { code: 'NOT_FOUND', message: 'Route not found' } });
   });
 });
+
+describe('security middleware', () => {
+  it('adds security headers (helmet)', async () => {
+    const res = await request(app).get('/health');
+
+    expect(res.headers['x-content-type-options']).toBe('nosniff');
+    expect(res.headers['x-powered-by']).toBeUndefined();
+  });
+
+  it('allows a listed origin and ignores an unlisted one (CORS)', async () => {
+    const allowed = await request(app).get('/health').set('Origin', 'http://localhost:8081');
+    const blocked = await request(app).get('/health').set('Origin', 'https://evil.example');
+
+    expect(allowed.headers['access-control-allow-origin']).toBe('http://localhost:8081');
+    expect(blocked.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
+  it('rejects a JSON body over the 1mb limit with 413', async () => {
+    const res = await request(app)
+      .post('/api')
+      .send({ data: 'x'.repeat(2 * 1024 * 1024) });
+
+    expect(res.status).toBe(413);
+  });
+});
