@@ -32,7 +32,8 @@ Requires Node.js 22+ (see `.nvmrc`).
 ```bash
 cd api
 npm install
-npm run dev        # http://localhost:4000
+cp .env.example .env   # then set JWT_SECRET (at least 32 characters: openssl rand -hex 32)
+npm run dev            # http://localhost:4000
 npm run check      # typecheck + lint + format check + tests (run before every PR)
 ```
 
@@ -47,4 +48,4 @@ npx expo start     # scan the QR code with Expo Go
 ```
 
 <!-- TODO (S1-T04): document `cp .env.example .env` and `docker compose up -d` for MongoDB -->
-<!-- TODO (S1-T03): document api/.env setup (see api/.env.example) -->
+The API validates its configuration at startup and exits with a message naming any missing or invalid variable. All variables are described in `api/.env.example`.

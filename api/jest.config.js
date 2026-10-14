@@ -12,6 +12,8 @@ module.exports = {
   testEnvironment: 'node',
   roots: ['<rootDir>/tests'],
   testMatch: ['**/*.test.ts'],
+  // Sets test environment variables before any source file is imported.
+  setupFiles: ['<rootDir>/tests/setupEnv.ts'],
   collectCoverageFrom: ['src/**/*.ts', '!src/server.ts', '!src/types/**'],
   coverageDirectory: 'coverage',
   clearMocks: true,
